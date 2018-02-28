@@ -46,29 +46,27 @@ dann vorwiegend klassische Themen der Graphentheorie, Graphenstruktur vs Algebra
 Am Schluss empirische Untersuchungen von realen Netzen.
 Im Gegensatz zur Spezialvorlesung werden hier auch Grundlagen der klassischen graphentheorie behandelt. Nicht so viel Graphdatenanalyse.
  \paragraph{Was sind graphen?}%
- \label{par:was_sind_graphen_}
- \begin{itemize}
-	 
-	 \item sie bestehen aus einer endlichen Menge von Knoten $V$ (Vertexmenge) $\rightarrow $ endliche Graphen
-	 \item sie haben eine kantenmenge, bezeichnet mit $E$.
-	 \item kanten verbinden knoten.
-	 \item kanten können ungerichtet und einfach sein dann gilt:
-		$ e\in E \Rightarrow e=\{x,y\}$ mit $ x,y\in V, x\neq y$
-statt geschwungenen klammern können auch runde klammern verwendet werden\\
-
+  \label{par:was_sind_graphen_}
+	\begin{itemize}
+		\item sie bestehen aus einer endlichen Menge von Knoten $V$  der \textbf{Vertexmenge} $\rightarrow $ endliche Graphen
+		\item sie haben eine Kantenmenge, bezeichnet mit $E$.
+		\item Kanten verbinden Knoten.
+		\item Kanten können gerichtet oder ungerichtet sein, Wir schreiben für $ e\in E$\\
+		$  e=\{x,y\}$ mit $ x,y\in V, x\neq y$\\
+statt geschwungenen Klammern können auch runde Klammern verwendet werden:\\
 $ e\in E \Rightarrow e=(x,y)$ mit$ x,y\in V, x\neq y$
  \end{itemize}
-wir bezeinchen diese als tupel, ineinem tupel spielt die reihenfolge eine rolle: $(x,y)\neq(y,x)$\\
-schleifen sind bezüge auf sich selbst, also $(x,x)\in E$ oder $\{x\}\in E$  einfache graphen haben keine schleifen!?\\
+wir bezeichnen diese Notation als Tupel, in einem Tupel spielt die Reihenfolge eine Rolle: $(x,y)\neq(y,x)$\\
+bezüge von Knoten auf sich selbst, also $(x,x)\in E$ oder $\{x\}\in E$, nennen wir \textbf{Schleifen}. \textit{Einfache Graphen}  haben keine schleifen!\\
 ungerichtet\\
-$E\subset \{\{x,y\}|x,y\in V\}= V^{(2)}$
-gerichtet
+$E\subset \{\{x,y\}|\{x,y\} =\{y,x\}, \textrm{ with } x,y\in V\}= V^{(2)}$
+gerichtet\\
 
-$E\subset V\times V= \{(x,y)|x,y\in V\}= V^{(2)}=V^2$
-für einfache graphen (mit schleifen)
-wir können auch eine funktion definieren:
-$G=(V endlich, E endlich, t: E\rightarrow V teil einer kante
-  h:E\rightarrow V \cdots Head einer kante$
+$E\subset V\times V= \{(x,y)|x,y\in V\}= V^{(2)}=V^2$\\
+für einfache graphen (mit schleifen)\\
+wir können auch eine funktion definieren:\\
+$G=(V endlich, E endlich, t: E\rightarrow V$ Tail of an edge
+  $h:E\rightarrow V \cdots$ Head of and edge
   in einem graphen gilt:
   $e=\\left\{ x,y \{ \quad h(e)=x, t(e)=y\quad oder \quad h(e)=y, t(e)=x$
   $e=(x,y)\quad h(e)=x, \quad t(e)=y$
