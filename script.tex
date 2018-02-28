@@ -1,0 +1,1063 @@
+%        File: seminar.tex
+%     Created: Mon Oct 09 02:00  2017 C
+% Last Change: Mon Oct 09 02:00  2017 C
+% vim: noai:ts=2:sw=2
+\documentclass[a4paper]{article}
+\usepackage{fontspec,lipsum}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage[small,sf,bf]{titlesec}
+\usepackage{libertine}
+\renewcommand*\familydefault{\sfdefault}  %% Only if the base font of the document is to be sans serif
+\usepackage{amsthm, amsmath, amssymb, bbm, bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{upgreek}
+\usepackage{graphicx}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{satz}{Satz}
+\newtheorem{behauptung}{Behauptung}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newtheorem{Exercise}{Exercise}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\renewcommand\theequation{\arabic{equation}}% equation number without chapter and section
+
+\title{\textbf{Graph Theory}}
+\author{script to the lecture of  WS2017/18 \\
+@ University of Leipzig}
+\date{}
+
+\begin{document}
+%\maketitle
+\section{Einleitungsvorlesung}
+\label{sec:einleitungsvorlesung}
+\subsection{literatur}
+\label{sub:literatur}
+distel, graph theory.
+\section{graphentheorie}
+\label{sec:graphentheorie}
+Aussicht:\\
+Ein wenig Notation zu Einstimmung, dann grundlegende Strukturen von Graphen, und wie wir sie  klassifizieren können, 
+dann vorwiegend klassische Themen der Graphentheorie, Graphenstruktur vs Algebra. Insbesondere die Struktur von Bäumen und Kreisen, dann Graphen, die sich in der Ebene darstellen lassen sowie Einfärbung von Graphen.
+Am Schluss empirische Untersuchungen von realen Netzen.
+Im Gegensatz zur Spezialvorlesung werden hier auch Grundlagen der klassischen graphentheorie behandelt. Nicht so viel Graphdatenanalyse.
+ \paragraph{Was sind graphen?}%
+ \label{par:was_sind_graphen_}
+ \begin{itemize}
+	 
+	 \item sie bestehen aus einer endlichen Menge von Knoten $V$ (Vertexmenge) $\rightarrow $ endliche Graphen
+	 \item sie haben eine kantenmenge, bezeichnet mit $E$.
+	 \item kanten verbinden knoten.
+	 \item kanten können ungerichtet und einfach sein dann gilt:
+		$ e\in E \Rightarrow e=\{x,y\}$ mit $ x,y\in V, x\neq y$
+statt geschwungenen klammern können auch runde klammern verwendet werden\\
+
+$ e\in E \Rightarrow e=(x,y)$ mit$ x,y\in V, x\neq y$
+ \end{itemize}
+wir bezeinchen diese als tupel, ineinem tupel spielt die reihenfolge eine rolle: $(x,y)\neq(y,x)$\\
+schleifen sind bezüge auf sich selbst, also $(x,x)\in E$ oder $\{x\}\in E$  einfache graphen haben keine schleifen!?\\
+ungerichtet\\
+$E\subset \{\{x,y\}|x,y\in V\}= V^{(2)}$
+gerichtet
+
+$E\subset V\times V= \{(x,y)|x,y\in V\}= V^{(2)}=V^2$
+für einfache graphen (mit schleifen)
+wir können auch eine funktion definieren:
+$G=(V endlich, E endlich, t: E\rightarrow V teil einer kante
+  h:E\rightarrow V \cdots Head einer kante$
+  in einem graphen gilt:
+  $e=\\left\{ x,y \{ \quad h(e)=x, t(e)=y\quad oder \quad h(e)=y, t(e)=x$
+  $e=(x,y)\quad h(e)=x, \quad t(e)=y$
+begriffe:
+Adjezenz-Matrix:\\
+$A: a_{x,y}
+\begin{cases}
+ 	1, wenn (x,y)\in E\\
+	0 otherwise
+\end{cases}
+$
+Inzidenz-Matrix\\
+$H_{x,e}= \{ 1 if x\in e
+  		0 otherwise
+		$
+für ungerichtete Graphen und 
+
+$H_{x,e}=\{ 1 wenn x=h(e)
+  		-1 wenn x=t(e)
+		0 sonst$
+A ist eine $|V|\times|V|$-Matrix
+wobei $|V|$ die kardinalität von $V$ ist also die Anzahl der Elemente.
+
+beispiel (muss noch nachgemalt werden), gerichteter graph:
+  $A= \begin{pmatrix}
+  0&1&0\\0&0&0\\0&1&0
+  \end{pmatrix}
+$
+incindencematrix: $|V|\times|E|$
+$H= \begin{pmatrix}
+-1&0\\+1&+1\\0&-1
+\end{pmatrix}$
+wir haben implizit vorrausgesetzt dass die knoten (beliebig) aber fix geordnet sind., ändert man die reihenfolge, ändert sich natürlich auch die matrix, die beiden matritzen(graphen) sind aber isomorph:\\
+\begin{definition}
+  
+  zwei Graphen $G$ und $G'$ sind isomorp wenn es eine umkehrbare abbildung $\Phi:V\rightarrow V'$ gibt, sodass $\{\Phi (x),\Phi (y)\}\in E' \Leftrightarrow \{x,y\} \in E $
+\end{definition}
+ein isomorphismus ist also eifach gesagt eine abbildung die kanten auf kanten und niichtkanten auf nichtkanten abbildet.
+eine invertierbare funktion auf einem endlichen V ist gleichbedeutend mit einer Permutation.
+$(x,y)\in E \Leftrightarrow A_{x,y}=1$
+sei $\Phi:V\rightarrow V$ ein isomorphismus, dann\\
+$(x,y)\in E \Leftrightarrow (\Phi (x),\Phi (y))\in E \Leftrightarrow A_{\Phi (x),\Phi (y)}=1$
+Permutatinsmatrix:
+$P^{(\Phi )}_{u,v}=\{ 1 wenn u=\Phi (v), 0 sonst$
+Transponierte Matrix:\\
+$A_{ij}=A^{T}_{ji}$
+die transponierte der permutationsmatrix auch geschrieben als: 
+$P'$ hat die eigenschaft:
+$P'\cdot P^{(\Phi )}=I$ 
+proof\\
+$[P'\cdot P^{(\Phi )}]_{u,wJ}= \sum_{v} P'_{u,v)}P^{(\Phi )_{v,w}}= 1 wenn \cdots\cdots\cdots\cdots$
+minor stuff mising.
+
+$A_{\phi (x),\Phi (y)}= P^{(\Phi ) T}\cdot A\cdot P^{(\Phi )}$\\
+
+$[A_{\phi (x),\Phi (y)}= P^{(\Phi ) T}\cdot A\cdot P^{(\Phi )}]_{r,s}$\\
+$= \sum_{p}^{}\sum_{\Phi} (p^{(\Phi )T})_{r,p}\cdot A_{pq}(P^{(\Phi )}_{qs}$
+erster termi ist 1 wenn $p=\Phi (r)) $ zweiter term ist 1 wenn $ q=\Phi (s)$
+ also :
+ $= A_{pq}$ mit $p=\Phi (r)$ und  $q=\Phi (s)$
+ $ A^{~}= (A_{\Phi (x) \Phi (y)}
+   A^{~}=  P^{(\Phi ) T}\cdot A\cdot P^{(\Phi )}$ 
+   jede adjeszendz matrix eines graphen G kann aus einer anderen AM erhalten werden durch multiplikation mit einer geeigneten Permutationsmatrix..
+   $A^{~}= A$ wenn es genau einen Isomorphismus $\Phi $ gibt, der $A^{~}=P^{(\Phi ) T}\cdot A\cdot P^{(\Phi )}$ erfüllt.
+   ein solcher isomorphismus heißt automorphismus.
+\subsection{einschub wiederholung algebra}
+\label{sub:einschub_wiederholung_algebra}
+
+	sei $m$ eine $n\times n$ matrix, $x\in \mathbbm{R}^n$
+	\\Wann ist $M\cdot x=\lambda x$ für $x\neq 0$ dann ist x ein Eigenwektor zum eigenwert $\lambda $
+	Sei P eine Invertierbare $n\times n $ matrix $(P^{~}P=I)$
+behauptung:
+$Mx=\lambda x$ mit $ x:= Py$ führt zu :\\
+$MPy=\lambda Py$
+$P^{-1}MPy=P^{-1}\lambda y=\lambda P^{-1}Py=\lambda I$
+wenn M den Eigenwert $\lambda$ hat, dann hat $P^{-1}MP$ den selben eigenwert für beliebige invertierbare matritzen P\\
+Die transformation \\
+$M\rightarrow P^{-1}MP$
+heißt ähnlichkeitstransformation. M, M' heißen ähnlich wenn $\exists P$ invertierbar, sodass $M'=P^{-1}MP$
+
+Eine symmetrische $n\times n$ matrix hat höchsens n verschiedene eigenwert, diese sind alle reel, ist die matrix nicht symmetrisch, dann bilden die eigenwerte komplex konjugierte paare und können komplex sein.
+die determinante 
+\begin{equation}
+  \det(M-\lambda I)=0
+\end{equation}
+ist ein polynom n'ten grades in $\lambda $.
+Das Spektrum einer Matrix ist die menge der eigenwerte (inklusive der algebraischen vielfachheiten).\\
+das spektrum der einheitsmatrix ist n mal der eigenwert 1.\\
+spectrum des graphen eines dreiecks:
+
+\begin{equation}
+  \begin{pmatrix}
+  0&1&1\\1&0&1\\1&1&0
+  \end{pmatrix}
+\end{equation}
+\begin{equation}
+  A-\lambda I= \begin{pmatrix}
+  -\lambda &1&1\\1&-\lambda &1\\1&1&-\lambda 
+  \end{pmatrix}
+\end{equation}
+\begin{equation}
+  \det(A-\lambda I)= -\lambda ^3+3\lambda +2=0
+\end{equation}
+$\lambda_1=-1
+$ todo: rest der gleichung rechnen.
+ende einnschub\ldots.
+alle möglichen adjezenz matrixen eines graphen G haben das selbe spektrum. dies führt zu dem begriff der invarianten:
+sein G die menge aller graphen. Eine Funktion $F: G\rightarrow X$ heißt \textit{graph-invariante} wenn gilt: $G\approxeq G' \Rightarrow F(G)=F(G')$
+
+Satz: das spektrum der adjezenz matrix ist eine graph invariante.\\
+\subsection{zusammenhang zwischen der adjezenz und der inzidenz matrix}
+\label{sub:zusammenhang_zwischen_der_adjezenz_und_der_inzidenz_matrix}
+
+im gerichteten falle:\\
+\begin{equation}
+  (H\cdot H^{T})_{xy}= \sum_{e} H_{xe}H^{T}_{_ey}= \sum_e H_{xe}H_{ye}
+\end{equation}
+$H_{xe}H_{ye}\neq 0$ nur dann wenn x,y head bzw tail von e sind $\rightarrow $ einer head, der andere tail 
+\begin{equation}
+  \Rightarrow H_{xe}H_{ye}=-1
+\end{equation}
+annahme: es gibt nur einseitige kanten: $(x,y)\in E \Rightarrow (y,x) \notin E$
+2.fall x=y\\
+\begin{equation}
+  \sum_e H_{xe}^2= \textrm{\# der nachbarn von x } =: \textrm{Gnod von X}
+\end{equation}
+Gnod matrix  
+\begin{equation}
+  D_{xx}= \textrm{Gnod von x und} D_{xy}=0 \textrm{für} x\neq y
+\end{equation}
+\begin{equation}
+  D_{xx}= sum_j A_{xy}
+\end{equation}
+\subsection{Paths and cycles}
+\label{sub:paths_and_cycles}
+
+Path: non empty graph.\\
+\begin{equation}
+  G=(V,E)
+\end{equation}
+$V=\left\{ x_0,\cdots,x_n \right\}$
+$E=\left\{ x_0x_1x_1,x_1x_2,x_2x_3,\cdots,x_{k-1}x_k \right\}$
+with all $x_i$ pairwise differnt\\
+-$x_0,x_k$ are connected throught the path and are called End vertices.\\
+
+- $|E|$ is the length of a path.\\
+-if $p=x_0-x_k$  is a path then $P+x_kx_0$ is a cycle\\
+\subsubsection{connectivity}
+\label{ssub:connectivity}
+
+Connected:a non-empty graph is connected, if
+\begin{equation}
+  \forall x,y\in V(G)\exists P \textrm{that connects x and y}   
+\end{equation}
+\begin{proposition}
+  Let G be a connected graph, the vertices can allways be ordered as $v_1,\cdots,v_n$ such that $\forall i:G_i?G[v_1,\cdots,v_i]$ is connected
+\end{proposition}
+\begin{proof}
+  claim that this is true for $V_1,..,V_i$
+  choose $v\in G - G_i$ ie a vertex from the rest graph\\
+  since G is connected, there must be a path connecting v and $v_i$\\
+  $ v_{i+1}$ is the last vertex in the path $v,\ldots,v_i$
+  from this the claim follows.\\
+\end{proof}
+\paragraph{induced subgraph}
+\label{par:induced_subgraph}
+an induced subgraph is a subset of the vertices, togethere with ALL the corresponding edges from the original graph G\\
+this subgraph may be not connected.
+$ G' \textrm{is indueced if }E(G')=\left\{ xy\in E(G), x\in V(G'), y \in V(G') \right\}$
+\paragraph{partition}
+\label{par:partition}
+
+
+a partitino of a set $M=\left\{ 1,\cdots,n \right\}$ is
+
+subsets $m_k$
+\begin{equation}
+\bigcup_iM_i=M
+\end{equation}
+\begin{equation}
+  M_i\cap M_j=\left\{  \right\}
+\end{equation}
+\paragraph{component}
+\label{par:component}
+
+a component is a maximal connected subgraph of $G$\\
+is an induced subgraph of $G$\\
+teh set of components partitions the graph G
+\paragraph{separation}
+\label{par:separation}
+
+if $A,B\subseteq V$ and $x\subseteq V\cup E$
+whatever.. google it yourself
+
+\subsubsection{anwendung von Laplace matrix oder so}
+\label{ssub:anwendung_von_laplace_matrix_oder_so}
+ \begin{equation}
+   L=D-A
+ \end{equation}
+ \subsubsection{algebraic connectivity}
+ \label{ssub:algebraic_connectivity}
+ 
+ 
+A ist die adjeszenz matrix
+Eigenschaften (ungereichteteter grah:
+  Symmetrisch Zeilen und spaltensummen=0
+  Eigenwert $\lambda_0=0$ und  $V_0=(1,-1)$
+  Anzahl der 0 EW ist whatever\ldots
+  das ist das ding aus wikipedia welches folgt. wir wollen und die algebraische connectivität anschauen also betrachten ob der graph resistend gegen das wegnehmen von vertices ist.
+  if we have a fairly well connected graph we can take away vertices without loosing connectivity., we also want to know, which vertices are connected more strongly and which vertices are important to keep connectivity granted.
+  the algebrtaiic connectivity shal be >0 only if there are only connected components, is the 2 smallest eigenvalue of the Laplace Matrix.
+  describes how well the graph is connected globally.
+the algebraic connectivity is smaller or equal to the  vertex connectivity
+\begin{example}
+  from wikipedia
+\end{example}
+\paragraph{fiedler vector}
+\label{par:fiedler_vector}
+
+is the eigenvector corresponding to the algebraic conectivity.\\
+can be used to partition the graph
+in the wikipedia example we have $F=(0.4,0.3,0.1,-0.2,-0.8)$
+we see immidiately that the vertex 6 is not connected very well to the rest, vertex 4 is a joint.\\
+possible partitions, could be domne by choosing in positiva and negative fiedlernumbers., ie $\left\{ 1,2,3,5 \right\}\left\{ 4,6 \right\}$
+\subsection{repetition from last time and some other stuff}
+\label{sub:repetition_from_last_time_and_some_other_stuff}
+
+
+\subsection{Zerlegungsproblem}
+\label{sub:zerlegungsproblem}
+
+\paragraph{path}
+\label{par:path}
+
+\begin{equation}
+  P=x_0,\dots,x_n
+\end{equation}
+wobei gilt dass $x_0x_1,x_1x_2,,\dots,x_{n-1}x_n\in E$
+\subsubsection{independent path}
+\label{ssub:independent_path}
+
+$P=XP_1P_2-Y$\\
+$Q=xq_1q_2-Y$ sind unanbhäng, wenn $ \left\{ p_1p_2- \right\}\left\{\cap q_1q_2- \right\}= \emptyset$ also disjunkt.\\
+$P\cap Q= \emptyset$
+\subsubsection{k-connectedness}
+\label{ssub:k_connectedness}
+
+	\begin{enumerate}[(i)]
+	  \item ein graph ist G ist k-verbunden wenn $\forall k-1$ vertices $G-\left\{ v_1,\dots,v_{k-1} \right\}$
+	  \item ein graph ig ist k verbunden wenn $\forall xy \in V(G)$ es $k$ unabhängige Pfade von x nach y gibt.
+	\end{enumerate}
+\subsubsection{2-connectedness}
+\label{ssub:2_connectedness}
+\begin{enumerate}[(i)]
+  \item der einfachste 2-verbundene Graph ist ein kreis
+  \item alle anderen 2-verbundnenen Graphen können aus (i) und weiteren Pfaden an diesem Graph konstruiert werden.
+\end{enumerate}
+\begin{lemma}
+  ein graph g ist 2-verbunden $\Leftrightarrow$ G kann via (i) und (ii) konstruiert werden.  
+\end{lemma}
+\begin{proof}
+  \begin{enumerate}[(a)]
+    \item jeder nach i und (ii) konstruierte graph ist 2 verbunden!
+    \item sien G 2-verbunden
+      \begin{enumerate}
+	\item g enthält einen kreis und deshalb einen $H\in G$ der nach (a) konstruirbar und maximal ist.
+	\item nehme an dass $G\neq H$ und $\exists vw\in E(G): v\in G-H, w\in H$
+	\item wir wissen als G ist 2-verbunden $\Rightarrow$ $G-w$(read G ohne w) hat einen v-H(read v nach H) path P, (also der nicht vw path) $\Rightarrow$ wvP ist H-path in G und $H \cup wvP$ der also eigentlich schon von anfang an in H hätte sein können  
+      \end{enumerate}
+  \end{enumerate}
+\end{proof}
+\subsubsection{cut vertex}
+\label{ssub:cut_vertex}
+
+ein vertex v ist ein cut vertex falls $G\setminus v$ nicht verbunden ist.
+\begin{definition}
+ Block: ein Block ist ein maximal verbundener Teilgraph $ B\subset G$ ohne cutvertex 
+\end{definition}
+($\forall v \in V(B)$ ist v KEIN cat vertex in B, v kann durchaus cutvertex in G sein)
+\begin{enumerate}[(i)]
+  \item ein Block ist 2-verbunden ODER
+  \item eine Brücke mit ihren enden ODER
+  \item ein isolierter vertex
+\end{enumerate}
+Unterschiedliche Blöcke in G überlappen in maximal einer vertex, einer cut cut vertex in G\\
+\begin{definition}
+  Bond: Menge von cut vertices die keine kleinere solche Menge enthalten
+\end{definition}
+\begin{lemma}
+  sei G ein graph 
+  \begin{enumerate}[(i)]
+    \item die cycles sin g sind genau die Kriese der Blöcke von G
+    \item die Bonds von G sind die minimalem schnitte (cuts) der Blöcke
+  \end{enumerate}
+\end{lemma}
+\begin{lemma}
+  gegeben sidn zwei  kanten  $ e,f \in E(G)$ 
+  \begin{enumerate}[(i)]
+    \item e,f gehören zu einem block ODER
+    \item e,f gehören zu einem cycle in G ODER
+    \item e,f gehören zu einem bond
+  \end{enumerate}
+\end{lemma}
+wenn man einen graphen als summe seiner blöcke schreibt, erhätl man einen Baum, denn alles äste von einem baum zusätzlcih verbinden könnte hieße das die struktur 2 ferbunden ist und damit die schleife in einen block gehört:
+\begin{lemma}
+  Der Blockgraph eines verbundenen graphen ist ien Baum.
+\end{lemma}
+\subsubsection{Ear decomposition / ohrenzerlegung}
+\label{ssub:ear_decomposition_ohrenzerlegung}
+
+- graph G(V,E), mit $|E|\geq 2$ mit einer kompomńente  \\
+- 2 verbunden iff es ien offen ohrenzerlegung gibt (tutte)\\
+- jede ohrenzerlegung definiert iene Kreisbasis (ohrenbasis)\\
+Bsp: haus vom nikolaus\\
+ein ohr ist ein maximaler pfad P, $|P|\geq 1$ so dass P nur an den endpunkten kanten aus $A\setminus P$ berührt.\\
+-  ohr ist ofefen wenn endpunkte verschieden  knoten in P habe deg =2\\
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{220px-Ear_decomposition.png}
+  \caption{Ear decomposition}
+  \label{fig:220px-Ear_decomposition}
+\end{figure}
+\begin{definition}
+  offene Ohrenzerlegung:\\
+  folge von Ohren \\
+  $P_1,P_2,\dots,P_k$ so dass $P_1$ Kreis , $P_k$ Ohr in G sein\\
+und $P_i \quad 1<i<k$ Ohr in $ \mathcal{G}_i)= \mathcal{G_{i+1}}\setminus P_{i+1}$ \\
+
+
+\end{definition}
+Wir Wollen nun einen Algorithmus für die Ohrenzerlegung haben:
+\subsection{algorithmen für ohenzerlegung}
+\label{sub:algorithmen_fur_ohenzerlegung}
+% figure spanningTrees
+\begin{enumerate}
+  \item finde Spanning tree für G, wähle Wurzel (zufällig) (ie es gibt viele spanning trees für einen graphen welcher ist der beste, wie findet man einen guten $\rightarrow $ aktuuelle forschung
+    \item für jede kante ab , nicht teil der trees finde lowest common ancestor von a und b
+    \item für jede kante $uv$ aus dem tree finde eine master edge $wx$ sodass: \begin{enumerate}[(i)]
+	\item $uv$, $wx$ sind teil eines grades
+	\item $wx$ hat lowest common anestor so nah and der wurzel wie möglich
+	  (jede kante bekommt die wertung der kante die nicht zum tree gehört und die man benutzen müsste um ohne die original kante vom einen vertex zum anderen zu kommen)
+
+    \end{enumerate} 
+  \item für alle $wx$ nicht an dem Tree sowie alle tree edges mit gleichem Wert forme Ohr; ordne die Ohren nach diesen Werten.
+\end{enumerate}
+\subsection{3-verbundene Graphen}
+\label{sub:3_verbundene_graphen}
+
+$k^4$  
+base case\\ 
+%figure k4
+proposition:\\
+jeder 3-verbundene $G\neq K^4$ kann in einen kleineren dreiverbundenn graphen transformerit werden.
+\begin{enumerate}[(i)]
+  \item löscche $e\in E(G)$ udn dunterdrücke alle vertices mit grad 2 die entstehen
+  \item Kontrahiere seine Kante
+\end{enumerate}
+$G\dot{-} e$ mir $e\in E(G)$ ist der graph ohne kante e und alle mit allen vertices deg2 unterdrückt.
+\begin{lemma}
+  sie e eine kante in G Falls $G\dot{-} e$ 3-verbundene ist so ist auch G 3verbunden
+\end{lemma}
+beweis ist anstrengend, daher ommitted\\
+\begin{lemma}
+  Jeder 3-verbundene Graph $G\neq K^4$ hat eine kante e so dass $G\dot{-}e$ ein 3-verbundener graph ist.
+\end{lemma}
+auch dieser beweis ist anstrengend\dots\\
+\begin{theorem}[Tuffe 1996]
+  graph G ist 3-connected $\Leftrightarrow\exists$ sequenz $G_0,G_1,\dots,G_n$ 
+  \begin{enumerate}[(i)]
+    \item $G_0=K^4$ und $G_n=G$
+    \item $G_{i+1}$ hat kante $ e \in E(G_{i+1}) $ so dass $G_i=G_{i+1} \dot{-} e \ \forall i$
+  \end{enumerate}
+\end{theorem}
+\begin{proof}
+  benutze vorheriges lemma um $G_n,\dots,G_0$ zu finden  und (ii) erfüllemn dann siend diese alle 3-verbunden nach vorherigem lemma\\
+  das bedeuted dass wir rekursiv alle 3-verbundenen Graohen pauen können(die dann kmpatibel mit (ii) sind)
+
+
+\end{proof}
+\begin{lemma}
+  jeder  3-verbundene graph $G\neq K^4$ hat eine Kante e so dass  $G\setminus e$ 'e contracted' wieder 3-verbunden ist.
+\end{lemma}
+bemerkt sei, dass der ursprungs $K^4$ aus dem theorem eben auch durch expansion, also dem gegenteil von kontraktion erreicht werden kann, dh im größeen graph muss $K^4$ nicht erkennbar sein.
+\begin{theorem}
+  [Tutte 1961]
+ein graph G ist  3-verbundener iff es eine sequenz $G_0,..,G_n$ von graphen gibt mit 
+\begin{enumerate}[(i)]
+  \item $G_0=K^4 \quad G_g=G$
+  \item $G_{i+1}$ gibt es $xy\in E(G_{i+1})$ so dass $deg(x), deg(y)\geq 3$ udnn $G_i=G_{i+1}/setminus xy$
+    alle diiese grahphen sind 3verbunden.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+  $\Rightarrow$ trivial\\
+  $\Leftarrow$ $\exists$ eine Folge wie oben gefordert. zu zeigen: if $G_i$ 3-connected, $\Rightarrow$ $G_{i+1}$ ist auch 3-connected.\\
+  (ews wird also eine induktion\dots)\\
+  induktionsschritt by contradiction: angennommen, das $G_{i+1}$ nicht 3 coinnected ist, dan existiert ein cut vertex mit höchstens 2 knoten\\
+% there are somepictures on paper which illustrate/make the contradiction.
+\end{proof}
+
+\begin{theorem}
+  [Menger 1927]
+  Sei $\mathbbm{G}$ ein Graph $A,B \subseteq V(G)$. die kleinste Zahl von Knoten in einem $A|B$ cut sist gleich der zahl der \textbf{disjunkten Wege} von A und B
+\end{theorem}
+beobachtung:\\
+jeder Weg von A nach B muss durch S laufen. folglich ist die zahl der disjunkten wege von A nach B kleiner als die anzahl der knoten in S
+\begin{equation*}
+  \textrm{\# der disjunkten wege von A nach B }\leq |S|
+\end{equation*}
+wir wollen gleichheit zeigen dass falls S ein minimaler seperator ist.\\
+Idee: Induktion in der Zahl der Kanten von G\\
+falls G keine Kanten hat: $A\cup B$ ist ein minimaler $A|B$ cut. \\
+$E(G)|=0$ trivialer weise richtig.\\
+G hat wenigstens eine kante: xy\\
+$G'$ entstehe aus $G$ durch Kontraktion der Kante xy.. $A'$ und $B'$ sind die entsprechenden mengen in $G'$\\
+angenommen $G'$ hat keinen $A'|B'$ cut it weniger als c knoten, dann hat G' auch einen teilgraphen W der aus $c$ disjunkten $A'B'$ wegen besteht. (induktionsannahme) \\
+% in anderen worten ich kontrahiere alles was für meine disjunkten A'B' wege nicht nötig ist, 
+$\Rightarrow \quad \exists  c$ knotendisjunkte $A'B'$ wege.\\
+2. G' hat einen $A'|B'$ cut mit weniger als C knoten, Sei dieser T'\\
+$\Rightarrow$ T' entsteht durch kontraktion aus einem A|B cut  T in G mit mehr elementen als T'\\
+$\Rightarrow \quad x,y\in T, \quad |T|=c$ \\
+folglich liegt xy auf keinem AT oder TB weg\\
+thus jeder A|T cut in $G\setminus xy$ und jeder B|T cut in $G\setminus xy$ ist ein A|B cut in G\\
+jeder A|T cut i und jeder B|T cut enthält mindestens c elemente (sonst wäre T mit c elementen ja kein minimaler A|B cut gewesen\\
+  $\Rightarrow$ G hat undetgraphen P udn Q dia aus c disjunlten AT bzw.  TB wegen bestehen.\\
+  $\Rightarrow$ T ist ein AB cut  $ \Rightarrow$ AT bzw TB wege können sich nur in T schneiden und es gibt keinen AB weg, der T vermeidet (sonst wäre es ja kein cut gewesen)\\
+  $ \Rightarrow$ daraus kann ich folgern P und P lassen sich genau aus c AB wegen zusammensetzen.\\
+  folglich enthält G tatsächlich c disjunkte AB Wege.\\
+  es ist vielleicht ein wenig seltsam hier die maximale anzahl der disjunkten Pfade , also der connectivität auf die Anzahl der knoten die man entfernen muss um zwei systeme zu trennen zurückzuführen, auf der anderen seite folgt das relativ einfach aus der disjunkten bedingung
+\subsection{Kreise}
+\label{sub:kreise}
+
+die idee von Eulerschen graphen und kreisen. das urresultat aus der graphentheorie. die legende: neuankömmlingen in St Petersburg die aufgabe zu stellen einen weg zu finden auf dem sie über jede brücke nur genau einmal laufen.\\
+
+Euler'sche Kreis in G ist ein kantendisjunkter weg, der alle kanten von G enthält. \\
+(ein eulerscer weg ist das gleiche nur nicht geschlossen)\\
+Frage : wann hat ein zusammenhängender graph einen eulerschen kreis und wie findet man ihn?\\
+\begin{enumerate}
+  \item notwendige bedingung: wenn ein kreis in den knoten rein geht, muss er auch wieder rauskommen, wenn er mehrmals rein geht mss er auch genausooft wieder rauskommen: sprich  die anzahl der kanten zu jedem knoten muss grade($\neq 0$) sein
+\end{enumerate}
+\begin{theorem}
+  [euler 18.jhd]
+  ein zusammenhängender Graph G hat einen Eulerschen Kreis genau dann wenn alle knoten einen geraden grad haben
+\end{theorem}
+\begin{proof}
+  $Leftarrow$ ist trivial\\
+  $\Rightarrow$ wir zerlegen den kreis beginnend an einem beliebbigen Knoten x als startpunkt für einen weg. weil der graph endlich ist muss sich dieser irgendwann selbst überschneiden, dh es gib einen knoten der 2 mal passsiert wird. der teilweg von y nach y ist  ein kreis C. Konstruire G'= G-C und ohne knoten knoten vom gran 0.\\
+  (G' ist nicht notwendigerweise zusammenhängend) \\ wiederhole auf den zusammenhängenden komponenten  bis G' keine knoten mehr hat. \\
+wir erhalten eine menge von kantendisjunkten kreisen\\
+zusammengefügt werden diese kreise startend mit einem kreis und einem andere, der einen knotem mit dem ersten teilt und schneiden beide kreise an diesem knoten füben sie zu einem zusammen. das wird so oft wiederholt, bis alle kreise zu einem eulerschen kreis vereint sind.
+\end{proof}
+einen eulerschen weg gibt es genau dann wenn der graph G genau 2 knoten mit ungeradem grad. diese müssen dann anfangs Bzw. Endpunkt des weges sein.
+
+leider habben eulersche kreise keine besonderen algebraischen eigenschaften, weswegen ein ähnliches aber etwas anderes system nützlicher ist:
+\subsubsection{kreisbasen}
+\label{ssub:kreisbasen}
+
+neue Frage: was ist denn eigentlich die Menge der kreise in G?\\
+Verallgemeinerte Kreise $ \equiv$  kantendisjunkte vereinigung von kreisen\\
+$\Rightarrow$ Kreis  $ \equiv $ Zusammenhängender teilgraph mit nur knoten mit G mod 2=0\\
+rechenregeln für kreise:
+für zwei Kreise: $C_1,C_2$ ist $C_1\oplus C_2$  : $(C_1\cup C_2)\setminus (C_1\cup C2)$ wieder ein verallgemeinerter kreis.\\
+C ist ien verallbemeinerter kreis in G $\Leftrightarrow$ C ist ein Teilgraph vom G mit geraden knotengraden $deg_{C_1}(x)+deg_{C_2}$ (ist gerade) - 2 gemeinsame kanten an x= gerade\\
+H ist die inzidencmatrix
+HC=0 genau dann wenn C ein verallgemeinerter kreis ist.\\
+über binärzahlen: 
+%graphik
+\begin{equation*}
+  H_{xe}
+  \begin{cases}
+    1 & wenn x \in e\\
+    0 \textrm{ sonst }
+  \end{cases}
+\end{equation*}
+\begin{equation*}
+  \oplus H_{xe}C_e =0 über GF(2)
+\end{equation*}
+% rechnung mit erklärung on sheet
+GF is te geeral linear field over all numbers  auch galois field\\
+kreisraum Eines graphen: Vektorraum aller (choneklischen Vektoren von ) verallgemeinerten Kreisen von G über GF(2)\\
+% graphik kreisraum on sheet
+Eine menge von Vektoren A heißt linear unabhängig, wenn die gleichung 
+
+\begin{equation*}
+  \sum_{v\in A} \lambda _v v=0
+\end{equation*}
+nur die lösung $\lambda _i=0 \forall v in A$ 
+(kreibasis?)
+ maximal linear unabhängie menge  $\Leftrightarrow$ minimale menge von kreisen aus der alle kreise von G durch $\oplus$ erzeiugt weren können.\\
+
+Dimension von Kreisraum : \# elemente in einer und damit jder Kreisbasis\\
+
+\subsubsection{Matroid}
+\label{ssub:matroid}
+
+endliche grundmenge X mengensystem $J\in \underbrace{2^x}_{\textrm{menge aller Teilmengen von x }} $\\
+ $ A\in J$nennen wir die unabhängige menge.\\
+ $A\in X$
+ $(X,J)$ heißt matroid wenn J folgendes erfüllt
+ \begin{enumerate}[(i)]
+   \item $\emptyset \in J$
+   \item $A\subseteq B$ und $ B\in J \Rightarrow A\in J$
+   \item A,B$\in J$ und $|A|<|B| dann \exists x \in B\setminus A$ sodass $ A\cup \left\{ x \right\}\in J$
+ \end{enumerate}
+ Beliebeige bewertung :\\
+ $F: X\rightarrow \mathbbm{R}^+$\\
+ f(x) gewicht von $x\in X$\\
+Aufgabe :
+finde Q sodass $ \sum_{x\in Q} f(x) \rightarrow  max$  und $Q\in J$ 
+lösung:\\
+greeeedy algorithm sortiere X absteigend nach $f\rightarrow \mathcal{L}$\\
+$ Q=\emptyset$\\
+while ($\mathcal{L} \neq \emptyset$)
+	nimm $x$ von top($\mathcal{L}$)
+	wenn $Q\cup \left\{ x \right\}\in J \Rightarrow  Q\cup \left\{ x \right\} \rightarrow  Q$
+-----
+ die dritte bedingung von oben wird auch Austausch axiom genannt.?!?!?!?
+ undetschied zwischen maximal und maximum:
+ maximal heißt nicht erweiterbar: $A\in J$ maximal $\Rightarrow \nexists B \in J$ mit $A\in B$
+ maximum:
+größte kardinalität $\Rightarrow\nexists B\in J$ mit $|B|> |A|$
+matroid: maximum= maximal\\
+alle maximalen unabhängigen mengen haben die gleiche (maximale)kardinalität $\Rightarrow$ Basen\\
+
+satz von kuskal ein unabhängigkeits system ist genau dann ein matroid wenn GREEDY für alle gewchtsfunktionen korrekt ist .
+
+
+% nächsten mal kreisbasen konstruktion über spannbäume/ finden von kreisbasen die aus möglichst kurzen kreisen bestehen.
+% Anwendung von kreisbasen: netzwerk technik aber auch zb kirchoffschen gesetze sind sehr simple anwendungen von kreisbasen
+\subsection{topologie - Graphen in der Ebene}
+\label{sub:topologie_graphen_in_der_ebene}
+
+ auf der euklidischen ebene in $ \mathbbm{R}^2$\\
+linien segment $\left\{ p+(\lambda (q-p) \right\}\quad p,q\in \mathbbm{R}^2, \quad p\neq q, \quad \lambda \in \left[ 0,1 \right]$\\
+Polygon $p\in \mathbbm{R}^2 $ vereinigung endlicher segmente homeomorph bijektive stetige abbildung) zum einheitskreis.\\
+Polygonzug: zusammenhämńgende Folge von strecken.
+\begin{theorem}
+  [Jordanscher Kurvensatz]	
+  Für jedes Polygon $P \subset \mathbbm{R}^2$ hat $\mathbbm{R}^2 \setminus P$ zwei Regionen (außen und innen) jede dieser Regionen hat P als Grenze 
+\end{theorem}
+\begin{lemma}
+  Seien $P_1,P_2,P_3$ polygonzüge mit endpunkten $x,y$ \\
+  - $ \mathbbm{R}^2\setminus (P_1\cup P_2\cup P_3) $ hat drei regionen mit grenzen $P_1\cup P_2$, $P_2 \cup P_3$ und $P_3 \cup P_1$ \\
+  falls P polygonzug in der region die $\circ{P}_2$ enthält, dann $\circ{P}\cap \circ{P}_2 \neq \emptyset$ 
+
+\end{lemma}
+\subsubsection{Eigenschaften von graphen in der Ebene}
+\label{ssub:eigenschaften_von_graphen_in_der_ebene}
+
+Ein Graph $G(V,EE)$ in der ebene (endlich) hat folgende eigenschaften :
+
+\begin{enumerate}[(i)]
+  \item $V\in \mathbbm{R^2}$
+   \item Jede kante ein polygonzug zwischen zwei vertices ist.
+   \item unterschiedliche kanten unterschiedliche Mengen von endpunkten haben. 
+   \item Das innere einer kante enthält keinen vertex und keinen Punkt eine andere Kante.
+\end{enumerate}
+
+- Facette/ Face :\\
+falls G ein Graph in der ebene so sind die regionen $\mathbbm{R^2 \setminus G}$ die facettem 
+- die äußere Facette liegt außerhalb von (`` via disk'' = von G.\\
+  diie anderen Facetten liegen innerhalb.\\
+\begin{lemma}
+  Sei G ein Graph in der Ebene $f \in F(G)$ eine facette , $H\subseteq G$ Teilgraph 
+  \begin{enumerate}[(i)]
+    \item H hat Facette  $j'\in F(H)$ mit  $f\in F$
+     \item Falls Rand (j) CH dann F'=F
+  \end{enumerate} 	
+\end{lemma}
+
+\subsection{Eulersche Formel}
+\label{sub:eulersche_formel}
+
+\begin{theorem}
+  Sei G ein verbundener Graph in der Ebene mit n knoten m kanten und l facetten, dann n-m+l= 2
+\end{theorem}
+de annahme stimmet für den tribilae graohen mit nY!
+durch vertex hinzufügen andert sich : (n+1)(m+1) +l?3
+\\\
+Kante hinzufügen zwischen zwei existierenden vertices:
+n-(m+2)+(l+1)=2
+\begin{corollary}
+  Ein Graph in de ebene min $n\geq 3$ knoten hat maximal $3n-6$ kanten\\
+  deder tirangulationspnukt mit $n$ knoten hat $3n+6$ kanden\\
+
+\end{corollary}
+\begin{theorem}
+  [kuratowski]
+  ein graph in der ebene hat weder $K^5$ noch $K_{33}$,das topologischne minor
+\end{theorem}
+
+Unterteilung eines graphen \\
+$G=(V,E))$
+. sei $e$ in $E(G)$ und $e=\left\{ x,y \right\}$
+dann ist $ G-\left\{ e \right\}\cup \left\{ (x,w)(w,y) \right\}$ eine unterteilung woben natürlich vertes w aáuch hinzugefügt eird.\\
+das glättem  ist die umkehturfn \
+$thus$ G und H homogen sind falls isomorphfe unterteilungen existieren. (NP hard)
+Graph minoren \\
+H ist ein Minor von G in H tfansponir werden k\\
+bla bla bla\\
+
+
+% pause , danach wacher . . . 
+g planar, endliche anzahl an Facetten , dann bilden facetten eine kreisbasis, jede innere kante ist in 2 kreisen und jede äußere in einem kreis ( der außere kreis nich tmitgezählt)
+$\Rightarrow $ jede kante in maximal 2 kreisen einer basis\\
+\begin{definition}
+  [2-Basis]	
+  jede kante genau 2x in basis \\
+  Konstruktion:\\
+  -$F=\bigoplus_{i\in B} c=$ rand der unbeschränkten facetten\\
+  `` 2 Basis $B\cup F$ 
+\end{definition}
+ \begin{theorem}
+   [satz von McLane]
+   G ist planar $\Leftrightarrow$ g hat eine 2 basis
+ \end{theorem}
+\begin{proof}
+  [durch widerspruch]
+  B sei eine 2 basis für g und G sei nicht planar\\
+  via kuratowski: G hat eeinen teilgraph H in der unterteilung von $K_5$  oder $K_{3,3}$ ist.
+  behauptung: H hat ebenfalls 2basis
+  Kommentar: $G\setminus e \quad \forall e$ hat 2-Basis $\Rightarrow$ H hat 2-Basis
+  \begin{enumerate}[(a)]
+    \item e nur in einem kreis $c\in B$ vorhanden \\
+      $\Rightarrow$ $B\setminus c$ ist 2-Basis
+    \item e in 2 kreisen vorkommend $\Rightarrow$ $B\setminus \left\{ c_1,c_2 \right\}\cup \left\{ c_1\oplus c_2 \right\} $ ist 2 basis$\Rightarrow$ alle Teilgraphen von $G$ haben 2-Basis
+  \end{enumerate}
+\end{proof}
+
+\begin{definition}
+  [zyklomentrische Zahl ]
+  Anzahl der basiselemnte einer zyklenbasis\\
+  $\mu(G)=E(G)-V(G)+K(G)$
+\end{definition}
+
+$\mu(K_5)=6$ $ E|(K_5)|=10$ ''rand``\\
+$ K_5$ hat c$C(K_5) =\mu(6)+|F|=7$\\
+und damit mindestens 27 $(3\times 7) $ kanten\\
+$K_{3,3}$ |v|=6 , |E|=9 \\
+$\mu(K_{3,3})=9-6+1=4$
+daraus ergibt seich jetzt irgendwie dier beweis von obigem theorem, wir lernen also dass wenn wir in unserenb gtraphen irgengwo k5 oder k3,3 finden er nich tplanar sein kann.
+
+\subsection{Graph Färbungen}
+\label{sub:graph_farbungen}
+
+\begin{definition}[vertex-färbung]
+  Eine Vertex Färbung eines graphen $G=(V,E)$ ist eine abbildung $c: v \rightarrow \xi $ so dass $c(v) \neq c(w)$ immer dann wenn $v$ und $w$ benachbart sind die elemente von $\xi$ nennt man Farben
+  \subsubsection{K colouring}
+  \label{ssub:k_colouring}
+  
+  G ist einfärbbar wenn $\xi= \left\{ 1,\dots,k \right\} $ existiert für die Abbildung $c$ 
+  \subsubsection{chromatische Zahl}
+  \label{ssub:chromatische_zahl}
+  
+  die chromatische Zahl $\chi$ ist die kleinste ganze Zahl $k$ so dass $G$  $K$-färbbar\\
+
+  Sei $\Delta (G)$ max das $G \chi(G) \leq \Delta (G) +1$
+  greedy nachbarn mit färben und dann knoten selbst mit $d+1$
+  \begin{lemma}
+    für jeden einfachen planeearen grapheen $G$ ist der durchschnittlichen grad d(G) strikt kleiner als 6
+  \end{lemma}
+  \begin{proof}
+    $d(6)= 2\times |E| \setminus |V|$ \\
+    mit $|V| \leq 3 , |E| \leq 3|v|-6$ und damit 
+    $d(6) \leq 2(c|v|-6)\setminus |v|= 6-\frac{12}{|v|}$
+  \end{proof}
+\end{definition}
+
+
+\begin{theorem}
+  jeder einfache planare graph hat $\chi(G)\leq 6 $ 6 farben satz
+\end{theorem}
+\begin{proof}
+  $|V|\leq6: trivial\dots$
+  whatever kann man sicherlich googeln
+\end{proof}
+es gibt auch einen fünf undn einen vierfarbensatz, der vierfarbeensatz ist sehr umständlich zu zeigen, der fünffarbensatz folgt:
+\begin{theorem}
+  jeder einfache planare graoh ist 5 färbbar
+\end{theorem}
+\begin{proof}
+  gegeben $G=(V,E$)
+  finde $v\in V mit d(v)\leq 5$\\
+  falls $d(v)<5$ färbe v sofort\\
+  sonst seinen $v_1,\dots,v_5$ nachbarn von v 
+  % stern graphik mit v1-v5
+  wähle $G13\subset G$ mit vertices mit farbn 1 und 3 mit kanten dazu \\
+  sind v1 nd v3 in gemeinsamer komponente?
+  falls nein, vertausche die farben 1 und 3 in einer komoponente
+  falls ja dann formen $v,v_1,v_3$ eineen Kreis  wir können aber das spiel mit $v_2$ nd $v_5$ widerholeen und siee liegen nicht in eineem kreis, da der graph planar ist . 
+\end{proof}
+
+
+
+
+% this part again by prof stadler
+
+\begin{definition}
+  [Kantenraum]
+  Vektorrraum mit basis $\left\{ e|e\in E \right\} $ über  GF(2)
+  XOR auf kanten\\
+  Kreisraum ist ein Teilraum des kantentraums\\
+\end{definition}
+\begin{definition}
+  [schnittraum]
+Vektorraum aller schnitte in G und deren kantendisjunkten vereinigungen)
+\end{definition}
+Kanonische Schnitte: 
+\begin{equation*}
+  K_v=\left\{ e|e=(v,y) \textrm{für ein  } y \in V \right\}
+\end{equation*}
+also kanten die inszident zu v sind
+\begin{behauptung}
+  Jeder schnitt ist dassrtellnbar als linearkombination von kanonischen schnitten  darstellbar. \\
+  Gneauer:
+  \begin{equation*}
+    K=\bigoplus_{v\in V_1}K_v= \bigoplus_{v\in V_2}K_v
+  \end{equation*}
+\end{behauptung}
+\begin{proof}
+  gegeben sie K, $ E= E_1\dot{\cup}E_e\dot{cup} K$
+wobei alle kanten in $E_i$ nur zu knoten in $V_i$ inszident sind und alle Kanten in K (per def) jeweil zu einem knoten in $V_1$ und einem Knoten in $V_2$ inszident sind\\
+
+\end{proof}
+beachte $ \bigoplus_{v\in V_1}K_v$ 
+\begin{enumerate}[(i)]
+  \item $K_v \subseteq E_1\cup K$
+  \item jede kante in $E_1$ erscheint in genau 2 kanonischen schnitten :\\
+    die kante  $e=(u,v)\subseteq K_u \textrm{und } \subseteq K_v$\\ genauer:
+    \\
+    $\left\{ e \right\}= K_u\cap K_v$\\ 
+    $u,v\in V_1$
+  \item jede kante in K erscheit in genau einem $K_v$ mit $v\in V_1$\\
+    $e=(w,z)\in K \quad w\in v_1, \quad z\in V_2$
+    \begin{equation*}
+      \left[ \bigoplus_{v\in V}K_v \right]_e= 
+      \begin{cases}
+        0 \textrm{wenn } e\in E_1\\
+	1 \textrm{wenn }e\in K
+	0 \textrm{wenn }e \in E_2
+      \end{cases}
+      = 
+      \begin{cases}
+        1 e \in   K\\
+	0 e\notin K
+      \end{cases}
+      = K
+    \end{equation*}
+    % die cases sind der charakteristische vektor von  | Kweil keine kante aus E_2 ein K_v v\in E liegt
+\end{enumerate}
+\begin{equation*}
+  \bigoplus_{v\in V}K_v= K \bigoplus K = 0
+\end{equation*}
+da wir in GF(2) sind 
+jede kante kommt also 2 mal vor 
+$\Rightarrow$ die Menge $ \underbrace{\left\{ K_v|v\in V \right\}}_{|v| \textrm{ elemente }}$ is tlinear abhängig aber erzeugend, es muss also eine teilmenge geben die eine Basis ist, folglich ist :
+\begin{equation*}
+  \dim(\textrm{Schnittraum }\leq |v| -1
+\end{equation*}
+% picture 3 13.11.2017
+\begin{theorem}
+  G zusammenhängend dann hat der schnittraum von G dimension $|v|-1$ und jede teilmenge aus V $ K= \left\{ K_v | v\in V\setminus \left\{ w \right\} \right\}$ ist eine basis für jedes $w \in V$
+\end{theorem}
+das ist vorerst eine relativ hübsche formale art eine basis für schnitträume zu finden.\\
+nun wollen wir versuchen ob es andere vielleicht natürlichere varianten gibt eine basis zu finden.\\
+Sei G zusammenhängend und betracthe einen spannbaum T von G dann definiert jedes $e\in T$ eine bipartitin von V , sodass  $ T \setminus e$ hat genau zusmmenhangskomponenten mit kantenmengen $ V_1^e, V_2^e$ 
+\begin{equation*}
+  K_e\left\{ \left\{ x,y \right\}|x\in V_1^e,y\in V_2^e \right\}
+\end{equation*}
+das ist ein cut\\
+% da kann man jetzt einen graphen zeichnen mit eimem spannbaum eingezeichnet und eine kante e des ST entfernen , dann müssen wir nur alle kanten die nicht teil des spanning treess ind aber die beinden hälften verbinden suchen un schon haben wir eine schnittmenge
+\begin{behauptung}
+  \begin{equation*}
+    \left\{ K_e | e\in T \right\}
+  \end{equation*}
+  ist linear unabhängig
+\end{behauptung}
+\begin{proof}
+  \begin{enumerate}[(i)]
+    \item $ e \in K_e$
+    \item sei f irgendeine kante aus T, $f\in T$ dann $f\neq e \Rightarrow f \neq K_e$ weil f in spannbaum $T\left[ <V_1 \right] \textrm{oder } T\left[ V_2 \right]$ \\
+      $ \Rightarrow $ $K_e$ kann nicht als linearkombinationi von 
+      \begin{equation*}
+	\left\{ k_f|f\in T\setminus e \right\}
+      \end{equation*}
+  \end{enumerate}
+\end{proof}
+diese arbumentation stimmt für JEDES $e\in T$
+Wäre die menge linear abhängig :\\
+$\bigoplus _{e\in T} \lambda _e K_e=0$ mit $ \lambda _e\neq 0$ für eine nichtleere teilmenge von T\\
+$\Rightarrow \lambda _e=0$ für alle e\\
+$ \Rightarrow $ also kann $ \left\{ K_e|e\in T \right\}$ nicht linear abhängig sein\\
+$ \Rightarrow$ linear unabhängig\\
+\begin{equation*}
+|\left\{ K_e|e\in T  \right\}=|T|= |v|-1
+\end{equation*}
+Zusammenführung:\\
+Es gibt höchstens $|v|-1$ linear unabhängige schnitte ( weil die |v| kanonoschen schnitte erzeugend aber nicht lu sind\\
+  aus der spannbaumkonstr:\\
+  mindestens |v|-1 lu schnitte\\
+  $\Rightarrow \dim(\textrm{schnittraum })\leq |v|-1$
+verbindung zwischen cuts und kreisen:\\
+sei  K ein cut und C ein Circle, 
+was kann man über $<K,C>$ sagen 
+\begin{equation*}
+  <K,C>= \bigoplus_{e\in E} C_e\cdot K_e \quad \textrm{\dots(charakteristischer vektor) }
+\end{equation*}
+Betrachte ein en kanonoshcen schnitt, $K_v$ und einen beliebinen (elementaren) Circle C
+\begin{equation*}
+  bigoplus _{e\in e}C_e\cdot(K_v)_e= \bigoplus_{e\in E} 
+  \begin{cases}
+    0 & v liegt auf dem kreis \\
+    0 & \textrm{v liegt auf dem kreis }
+  \end{cases}=0
+\end{equation*}
+nun sei K ein beliebiger cun tuun C ein beliebgiger verallgemeinerter  Circle
+\begin{equation*}
+  K= \bigoplus_{v\in V_1}K_v
+\end{equation*}
+\begin{equation*}
+  C= \bigoplus_i C_i
+\end{equation*}
+summe von elementaren kreisen
+\begin{equation*}
+  	<K,C>= <\bigoplus_{v\in V_1}K_v,\bigoplus_i C_i>
+\end{equation*}
+\begin{equation*}
+  = \bigoplus_{v\in V_1}\bigoplus_i<K_v,C_i>= \bigoplus_{v\in V_1}\bigoplus_i 0=0
+\end{equation*}
+folglich sien cuts und kreise Orthogonal
+$\Rightarrow$ dim(schnittraum) + dim (kreisraum) $\leq$ dim Kantenraum
+% use onderbrackets to compare the following:
+\begin{equation*}
+  	|v|-1  + |K| \leq |E| 
+\end{equation*}
+thus  |K| \
+jsut get the dimension s right, which ones do we know, what do we wat to know?? make some references!
+\subsubsection{Konstruktionen von kreisbasen}
+\label{ssub:konstruktionen_von_kreisbasen}
+
+\begin{enumerate}[(i)]
+  \item Kirchoff (strikt fundamentale) basen, G zusammnehängend\\
+    T spannbaum in G 
+    cyc(T.e)  sei der eindeutig bestimmte kreis in $T\cup \left\{ e \right\}$ für $e\notin T$\\
+    $\rightarrow e\left\{ x,y \right\}, \exists$ genau ein weg in $T$ von $x$ nach $y, T_{xy}$\\
+    $cyc (T,e) = T_{xy}\cup \left\{ \left\{ x,y \right\} \right\}$
+
+
+
+
+\end{enumerate}
+
+\begin{behauptung}
+  \begin{equation*}
+  \left\{ cyc/T,e)|\in E\setminus T \right\}
+  %% the setminus used to be a backslash, is it really a setminus??
+  ist linear unabhängig
+  \end{equation*}
+\end{behauptung}
+\begin{proof}
+  $e\in cyc(T,e)$ aber \\
+  $e\notin cyc(T,e')$ für $e'\neq e$\\
+  $\Rightarrow \exists$ kiene linearkombination non kreisen $cyc(T,f)  f\neq e$\\ 
+  die $cyc(T,e)$ erzeugt, dh in $\bigoplus _{c \in E \setminus T} \lambda_e cyc (T,e)=0$\\
+  muss $\lambda _e=0$ sein \\
+  Anzahl der kreise in $|\left\{ cyc(T,e) | e\in E\setminus T \right\}|$\\
+  $|E\setminus T | = |E| \underbrace{|T|}_{|v|-1}$
+  $=|E|-|v|+1$\\
+  das ist die maximalzahl von linear unabhängigen kreisen C auf orthogonalität zum schnittraum \\
+  $\Rightarrow\left\{ cyc(T,e)| e\in E\setminus T \right\}$
+
+eine basis des kreisraums kreisbasis 
+\textbf{zyklomatishe zahl} 
+\begin{equation*}
+  |E|-|v|+|1|= \mu(g)
+\end{equation*}
+ist die dimension des kreisraumes
+
+\end{proof}
+\begin{definition}
+  eine kresibasis $B$ heißt kichhofbasis (synonym zu strikt fundamentale basis) wenn es einen spannbaum $T$ von $G$ gibt, sodass 
+  \begin{equation*}
+    B= \left\{ cyc(T,e)|e\in E\setminus T \right\}
+  \end{equation*} 
+  nicht jede basis hat diese Kirchoff eigenschaft
+  % drawing 4 13.11
+\end{definition}
+\subsection{Ohrenbasen}
+\label{sub:ohrenbasen}
+
+Sein G 2 zusammenhängend ein schnitt 2 Zusammenhängend   $\Leftrightarrow$ je zwei knoten liegen auf einem kreis $\Leftrightarrow$ 2 kanten zusammenhängend ( stimmt nicht mehr für 3 zusammenhängend !, nur n=2)\\
+Jeder 2 zusammenhängende Graph G hat eien Offene Ohrenzerlegung.\\
+\begin{equation*}
+n= \mu (G) = |E| -|v|+1
+\end{equation*}
+gegeben eine Phrenzerlegung O die aus den Ohren \dots
+\begin{equation*}
+  O= \left\{ P_1.
+ ,P_2,,\dots,P_n\right\}
+ zusammengesetzt
+\end{equation*}
+erhält man eine Ohrenbasis wie folgt:
+ergänze jeden Pfad (Ohr) $P_k $ mit endpunkten $x_k$ und $y_k$ un $G_{k-1}$,durch einen pfad $\overline{P}$ in $G_{k-q}$ von $x$ nach $y$ zu einem $C_k$ (für $P_1, x_1,y_1$, $G=k_1$, $P_1=C_1$
+$\overline{P}:k$ existiert, weil $G_{k-1}$ wieder 2 zusamenhängend  und deswegen $x_k, y_k$ auf eiunerm kreis liegen \\
+\begin{equation*}
+  P_k \cup \overline{P}_k = C_k
+\end{equation*}
+
+
+\begin{behauptung}
+  die ohrenkreise sind linear unabängig	
+
+\end{behauptung}
+\begin{proof}
+  angenommen 
+  \begin{equation*}
+    \bigoplus_{i=1}^{|E|-|v|+1}
+    \underbrace{\lambda _i}_{0 oder 1}\cdot C_i
+  \end{equation*}
+  $C_{\mu(G)}$ enthält mindesten ienn ekante die nicht in $G(\mu(G)-1)$ und daher auch nicht in $G_k k\leq \mu(G)$ enthalten ist.
+  $\Rightarrow \lambda _\mu(G)=0$
+  dann gilt:
+  \begin{equation*} 
+    \bigoplus_{i=1}^{\mu(G)-1}\lambda _iC_i=0
+  \end{equation*}
+
+
+
+  nun kann $C_{\mu(G)-1}$ nich tdurch $C_1,\dots, C_{\mu(G)-2}$erzeugt werden 
+  $\Rightarrow \lambda_{\mu(G)-1}= 0$\\
+  $\dots \mu(G)-1$ mal wiederholen
+  $\Rightarrow \lambda _{\mu(G)}= \lambda_{\mu(G)-1}= \lambda _{\mu(G)-2}=\lambda _1=\lambda _2=0$\\
+  $\Rightarrow \left\{ c_i|i=1,\dots,\mu(G) \right\}$ ist linear unabhängig
+  \begin{definition}
+    EIne menge von Kreisen $C_i$ heißt \textbf{fundamental} wenn es eine ordnung $\pi$ gibt, sodass:
+    \begin{equation*}
+    \bigcup_{i=1}^{k}C_{\pi(i))}   \setminus   \bigcup _{i=1}^{k-1} C_{\pi(i)}= \emptyset \quad \textrm{ für alle }  K\leq 2 
+    \end{equation*}
+  \end{definition}
+\end{proof}
+\begin{satz}
+  Jede ohren basis ist fundamental
+\end{satz}
+\begin{theorem}
+  strikt fundamental heißt :
+  \begin{equation*}
+    \bigcup_{i=1}^{k}C_{\pi(i))}   \setminus   \bigcup _{i=1}^{k-1} C_{\pi(i)}= \emptyset
+  \end{equation*}
+  für \textbf{jede} ordnung $\pi$
+\end{theorem}
+wenn das für jede ordun gilt, dann wäjhle einen beliebigen basiskreis. $C$ enthält $C'$ die in keinem anderen kreis enthalten ist  $C'=\left\{ e \right\}$\\
+kann jeden kreis als letzten wählen 
+$\Rightarrow \mu(G)$ solche nicht widerverwendeten Mengen $N_i$
+% 20.11.2017
+
+Kreisraum( menge aller verallgemeinerten Kreise inklusive $\emptyset$)
+Schnittraum (menge aller schnitte und derer vereinigungen incl. $\emptyset$)
+\paragraph{Zufallsgraphen}
+\label{par:zufallsgraphen}
+
+Sei $G=(V,E)$ ein graph , $V=\left\{ 0,\dots,n-1 \right\}, \quad |V|=n$\\ 
+Sei $G \in \mathcal{G}$ wobei gilt $|V|=n$ f[r alle $G \in \mathcal{G}$ \\
+  for alle $e \in \left[ V \right]^{2} $ choose e randomly with probability  $ p\in [0,1]$\\
+Sei $G_0 \in \mathcal{G}$ ein fixer graph on V with m edges, then the elementary event $\left\{ \mathcal{G} \right\}$ has the probab
+$P\left( \left\{ G_0 \right\} \right)=p^m\cdot q^{\binom{n}{2}-m}$ with $q=1-p$ for this graph
+\\ 
+note that such a measure exists
+the prob space for every possible edge $e\in [V]^2$ \\
+$\omega _e :=\left\{ 0_e,1_e \right\}, P_e\left( \left\{ 1_e \right\} \right)=P, P_e\left( \left\{ 1_e \right\} \right)=q$\\
+$\mathcal{G}=\mathcal{G}(n,p)$ : product space
+%2017-11-27 14:35
+% spezialvorlesung 2017-12-11 14:03	
+\section{Spezialvorlesung}
+\label{sec:spezialvorlesung}
+
+\subsection{introduction to phyogeny}
+\label{sub:introduction_to_phyogeny}
+
+menge X aller organismen \\ 
+ein organismus $x\in X$ was hat zum genom des individuums beigetragen?
+in haploiden lebewesen hauptsächlich zellteilung, zellteilung ist in der regel nicht symmetrisch und wir k;nnen zwischen der ancestranel und der neuen zelle unterscheiden.\\
+Genealogie: ein graph in dem zu jedem menschen oder tier die beiden eltern markiert sind
+
+
+phylogeny 
+reconstruction of the evolutionary history.
+sub
+
+
+
+
+\end{document}
