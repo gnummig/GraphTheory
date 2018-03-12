@@ -7,6 +7,7 @@
 \defaultfontfeatures{Ligatures=TeX}
 \usepackage[small,sf,bf]{titlesec}
 \usepackage{libertine}
+\usepackage{caption}
 \renewcommand*\familydefault{\sfdefault}  %% Only if the base font of the document is to be sans serif
 \usepackage{amsthm, amsmath, amssymb, bbm, bm}
 \usepackage[shortlabels]{enumitem}
@@ -21,11 +22,11 @@
 \theoremstyle{definition}
 \newtheorem{example}{Example}
 \newtheorem{Exercise}{Exercise}
-\newtheorem{definition}{Definition}
+\newtheorem*{definition}{Definition}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 \renewcommand\theequation{\arabic{equation}}% equation number without chapter and section
-
+\newcommand{\source}[1]{\vspace{-3pt} \caption*{\hfill  Source: {#1}} }
 \title{\textbf{Graph Theory}}
 \author{script to the lecture of  WS2017/18 \\
 @ University of Leipzig}
@@ -37,7 +38,7 @@
 \label{sec:einleitungsvorlesung}
 \subsection{literatur}
 \label{sub:literatur}
-distel, graph theory.
+R. Diestel, Graph Theory, springer press, is available as a free electronic version.
 \section{graphentheorie}
 \label{sec:graphentheorie}
 Aussicht:\\
@@ -48,54 +49,73 @@ Im Gegensatz zur Spezialvorlesung werden hier auch Grundlagen der klassischen gr
  \paragraph{Was sind graphen?}%
   \label{par:was_sind_graphen_}
 	\begin{itemize}
-		\item sie bestehen aus einer endlichen Menge von Knoten $V$  der \textbf{Vertexmenge} $\rightarrow $ endliche Graphen
-		\item sie haben eine Kantenmenge, bezeichnet mit $E$.
+		\item sie bestehen aus einer endlichen Menge von Knoten der \textbf{Vertexmenge}  $V\quad \rightarrow $ endliche Graphen
+		\item sie haben eine \textbf{ Kantenmenge}, bezeichnet mit $E$.
 		\item Kanten verbinden Knoten.
-		\item Kanten können gerichtet oder ungerichtet sein, Wir schreiben für $ e\in E$\\
+		\item Kanten können gerichtet oder ungerichtet sein.
+			Wir können eine Kante $e$ als ein subset mit zwei elementen aus der Vertexmenge $V$ schreiben
+			Also für $ e\in E$:\\
 		$  e=\{x,y\}$ mit $ x,y\in V, x\neq y$\\
 statt geschwungenen Klammern können auch runde Klammern verwendet werden:\\
-$ e\in E \Rightarrow e=(x,y)$ mit$ x,y\in V, x\neq y$
- \end{itemize}
+$ e\in E \Rightarrow e=(x,y)$ mit$ x,y\in V, x\neq y$\\
 wir bezeichnen diese Notation als Tupel, in einem Tupel spielt die Reihenfolge eine Rolle: $(x,y)\neq(y,x)$\\
-bezüge von Knoten auf sich selbst, also $(x,x)\in E$ oder $\{x\}\in E$, nennen wir \textbf{Schleifen}. \textit{Einfache Graphen}  haben keine schleifen!\\
-ungerichtet\\
-$E\subset \{\{x,y\}|\{x,y\} =\{y,x\}, \textrm{ with } x,y\in V\}= V^{(2)}$
-gerichtet\\
-
-$E\subset V\times V= \{(x,y)|x,y\in V\}= V^{(2)}=V^2$\\
-für einfache graphen (mit schleifen)\\
+ \end{itemize}
+ bezüge von Knoten auf sich selbst, also $(x,x)\in E$ oder $\{x\}\in E$, nennen wir \textbf{Schleifen}.
+\begin{definition}
+	Ein \textbf{einfacher Graph} ist ein ungerichteter graph ohne mehrfachkanten und ohne Schleifen
+\end{definition}
+Wir assoziieren also die  \textrm{ Mengen}  Notation  mit \textrm{ ungerichteten} Kanten\\
+$E\subset \{\{x,y\}|\, x,y\in V\}= V^{(2)}$\\
+und die \textrm{Tupel} Notation als \textrm{gerichtete} Kanten:\\
+$E\subset V\times V= \{(x,y)|x,y\in V\}=V^2$\\
+für einfache graphen (und mit schleifen)\\
 wir können auch eine funktion definieren:\\
-$G=(V endlich, E endlich, t: E\rightarrow V$ Tail of an edge
-  $h:E\rightarrow V \cdots$ Head of and edge
-  in einem graphen gilt:
-  $e=\\left\{ x,y \{ \quad h(e)=x, t(e)=y\quad oder \quad h(e)=y, t(e)=x$
-  $e=(x,y)\quad h(e)=x, \quad t(e)=y$
-begriffe:
-Adjezenz-Matrix:\\
-$A: a_{x,y}
-\begin{cases}
- 	1, wenn (x,y)\in E\\
-	0 otherwise
+$G=(V endlich, E endlich, t: E\rightarrow V$ Tail of an edge\\
+  $h:E\rightarrow V \cdots$ Head of and edge\\
+  in einem graphen gilt:\\
+	\begin{equation*}
+		e= \left{\{ x,y \}| \quad h(e)=x, t(e)=y\quad oder \quad h(e)=y, t(e)=x\right\}
+	\end{equation*}
+	 and for oriented edges respectively:
+	 \begin{equation*}
+  e=(x,y)\quad h(e)=x, \quad t(e)=y1
+	 \end{equation*}
+	\subsection*{Begriffe}
+Adjeszenz-Matrix:\\
+\begin{equation*}
+A: A_{x,y}=
+\begi
+ 	1, \textrm{ wenn  } (x,y)\in E\\
+	0 \textrm{ otherwise }
 \end{cases}
-$
-Inzidenz-Matrix\\
-$H_{x,e}= \{ 1 if x\in e
-  		0 otherwise
-		$
+\end{equation*}
+Inziden-Matrix\\
+\begin{equation*}
+H_{x,e}= 
+\begin{cases}
+	1 \textrm{ if  } x\in e\\
+	0 \textrm{ otherwise }
+\end{cases}
+\end{equation*}
 für ungerichtete Graphen und 
-
-$H_{x,e}=\{ 1 wenn x=h(e)
-  		-1 wenn x=t(e)
-		0 sonst$
+\begin{equation*}
+H_{x,e}=
+\begin{cases}
+		1 \textrm{ if  } x=h(e)\\
+  	-1 \textrm{ if  } x=t(e)\\
+		0 \textrm{ otherwise }
+\end{cases}
+\end{equation*}
+ für gerichtete graphen.\\
 A ist eine $|V|\times|V|$-Matrix
-wobei $|V|$ die kardinalität von $V$ ist also die Anzahl der Elemente.
+wobei $|V|$ die kardinalität von $V$ ist, also die Anzahl der Elemente.\\
 
 beispiel (muss noch nachgemalt werden), gerichteter graph:
   $A= \begin{pmatrix}
   0&1&0\\0&0&0\\0&1&0
   \end{pmatrix}
 $
-incindencematrix: $|V|\times|E|$
+incindence matrix: $|V|\times|E|$
 $H= \begin{pmatrix}
 -1&0\\+1&+1\\0&-1
 \end{pmatrix}$
@@ -132,29 +152,36 @@ erster termi ist 1 wenn $p=\Phi (r)) $ zweiter term ist 1 wenn $ q=\Phi (s)$
    jede adjeszendz matrix eines graphen G kann aus einer anderen AM erhalten werden durch multiplikation mit einer geeigneten Permutationsmatrix..
    $A^{~}= A$ wenn es genau einen Isomorphismus $\Phi $ gibt, der $A^{~}=P^{(\Phi ) T}\cdot A\cdot P^{(\Phi )}$ erfüllt.
    ein solcher isomorphismus heißt automorphismus.
-\subsection{einschub wiederholung algebra}
-\label{sub:einschub_wiederholung_algebra}
+\subsection{some algebra repetition}
+\label{sub:some_algebra_repetition}
 
-	sei $m$ eine $n\times n$ matrix, $x\in \mathbbm{R}^n$
-	\\Wann ist $M\cdot x=\lambda x$ für $x\neq 0$ dann ist x ein Eigenwektor zum eigenwert $\lambda $
-	Sei P eine Invertierbare $n\times n $ matrix $(P^{~}P=I)$
-behauptung:
-$Mx=\lambda x$ mit $ x:= Py$ führt zu :\\
-$MPy=\lambda Py$
-$P^{-1}MPy=P^{-1}\lambda y=\lambda P^{-1}Py=\lambda I$
-wenn M den Eigenwert $\lambda$ hat, dann hat $P^{-1}MP$ den selben eigenwert für beliebige invertierbare matritzen P\\
-Die transformation \\
-$M\rightarrow P^{-1}MP$
-heißt ähnlichkeitstransformation. M, M' heißen ähnlich wenn $\exists P$ invertierbar, sodass $M'=P^{-1}MP$
 
-Eine symmetrische $n\times n$ matrix hat höchsens n verschiedene eigenwert, diese sind alle reel, ist die matrix nicht symmetrisch, dann bilden die eigenwerte komplex konjugierte paare und können komplex sein.
-die determinante 
+	Let $M$ be a  $n\times n$ matrix and  $x\in \mathbbm{R}^n$ \\
+	If  $M\cdot x=\lambda x$ for $x\neq 0$ then $x$ is called eigenvector to the eigenvalue $\lambda $\\
+	Let $P$ be an invertible  $n\times n $ matrix ie. $(P^{~}P=I)$\\
+claim:
+\begin{equation*}
+		Mx=\lambda x \textrm{ with  }  x:= Py 
+\end{equation*}
+leads to:  \\
+\begin{gather*}
+	MPy=\lambda Py\\
+	P^{-1}MPy=P^{-1}\lambda Py=\lambda P^{-1}Py=\lambda Iy
+\end{gather*}
+
+if $M$ has eigenvalue  $\lambda$, then  $P^{-1}MP$  has the same eigenvalue for arbitrary invertible matrices $P$\\
+The transformation \\
+$M\rightarrow P^{-1}MP$\\
+is called similarity transformation. $M$ and $M'$ are called similar if there exists $P$ invertible such that $M'=P^{-1}MP$\\
+
+A symmetric $n\times n$ matrix has at most n distinct eigenvalues, all being realvalued. If a matrix is not symmetric, the eigenvalues form pairs of complex conjugates, hence they can be complex.\\
+The determinant:\\ 
 \begin{equation}
   \det(M-\lambda I)=0
 \end{equation}
-ist ein polynom n'ten grades in $\lambda $.
-Das Spektrum einer Matrix ist die menge der eigenwerte (inklusive der algebraischen vielfachheiten).\\
-das spektrum der einheitsmatrix ist n mal der eigenwert 1.\\
+is a polynomial of $n$'th order in $\lambda $, it is called \textbf{characteristical polynomial} $P_\lambda $.\\
+We call the set of eigenvalues in their algebraic multiplicity the \textbf{spectrum} of a matrix.\\
+the spectrum of the identity matrix is thus $n $ times the eigenvalue 1.\\
 spectrum des graphen eines dreiecks:
 
 \begin{equation}
@@ -170,129 +197,214 @@ spectrum des graphen eines dreiecks:
 \begin{equation}
   \det(A-\lambda I)= -\lambda ^3+3\lambda +2=0
 \end{equation}
-$\lambda_1=-1
-$ todo: rest der gleichung rechnen.
-ende einnschub\ldots.
-alle möglichen adjezenz matrixen eines graphen G haben das selbe spektrum. dies führt zu dem begriff der invarianten:
-sein G die menge aller graphen. Eine Funktion $F: G\rightarrow X$ heißt \textit{graph-invariante} wenn gilt: $G\approxeq G' \Rightarrow F(G)=F(G')$
+we make an educated guess: $\lambda_1=-1$, so we are left with
+\begin{equation*}
+	\begin{split}
+	P_\lambda &= (\lambda +1)(-\lambda ^2 +\lambda +2)\\
+	&= (\lambda +1)(\lambda -1)(\lambda -2)
+	\end{split}
+\end{equation*}
+so the spectrum is -1,1,2
 
-Satz: das spektrum der adjezenz matrix ist eine graph invariante.\\
+\subsection{application to graphs}
+\label{sub:application_to_graphs}
+all possible adjacency matrices of a graph have the same spectrum. This leads to the notion of the invariant
+\begin{definition}[invariant]
+	Let $G$ be the set of all graphs. a function  $F: G\rightarrow X$ is called \textbf{graph invariant} if it is the same for al isomorphisms of a graph:\\
+ 	$G\approxeq G' \Rightarrow F(G)=F(G')$ 
+\end{definition}
+
+\begin{theorem}
+Das spektrum der adjezenz matrix ist eine graph invariante.\\
+\end{theorem}
 \subsection{zusammenhang zwischen der adjezenz und der inzidenz matrix}
 \label{sub:zusammenhang_zwischen_der_adjezenz_und_der_inzidenz_matrix}
 
-im gerichteten falle:\\
+Im gerichteten Falle:\\
 \begin{equation}
-  (H\cdot H^{T})_{xy}= \sum_{e} H_{xe}H^{T}_{_ey}= \sum_e H_{xe}H_{ye}
+  (H\cdot H^{T})_{xy}= \sum_{e} H_{xe}H^{T}_{ey}= \sum_e H_{xe}H_{ye}
 \end{equation}
-$H_{xe}H_{ye}\neq 0$ nur dann wenn x,y head bzw tail von e sind $\rightarrow $ einer head, der andere tail 
+$H_{xe}H_{ye}\neq 0$ nur dann wenn $x,y$ head bzw. tail von $e$ sind $\rightarrow $ einer head, der andere tail 
 \begin{equation}
   \Rightarrow H_{xe}H_{ye}=-1
 \end{equation}
-annahme: es gibt nur einseitige kanten: $(x,y)\in E \Rightarrow (y,x) \notin E$
+annahme: es gibt nur einseitige kanten:\\
+$(x,y)\in E \Rightarrow (y,x) \notin E$\\
 2.fall x=y\\
 \begin{equation}
-  \sum_e H_{xe}^2= \textrm{\# der nachbarn von x } =: \textrm{Gnod von X}
+\sum_e H_{xe}^2= \textrm{ \# der nachbarn von }x  =: \textrm{ Grad von } x 
 \end{equation}
-Gnod matrix  
+Grad matrix  
 \begin{equation}
-  D_{xx}= \textrm{Gnod von x und} D_{xy}=0 \textrm{für} x\neq y
+D_{xx}= \textrm{Grad von }x \textrm{ und } D_{xy}=0 \quad \textrm{ für } x\neq y
 \end{equation}
 \begin{equation}
-  D_{xx}= sum_j A_{xy}
+  D_{xx}= \sum_j A_{xy}
 \end{equation}
 \subsection{Paths and cycles}
 \label{sub:paths_and_cycles}
-
-Path: non empty graph.\\
+\begin{definition}[Path]
+	A \textbf{Path } is a nonempty graph 
 \begin{equation}
-  G=(V,E)
+  P=(V,E)
 \end{equation}
-$V=\left\{ x_0,\cdots,x_n \right\}$
-$E=\left\{ x_0x_1x_1,x_1x_2,x_2x_3,\cdots,x_{k-1}x_k \right\}$
+$V=\left\{ x_0,\cdots,x_n \right\}$\\
+$E=\left\{ \{ x_0,x_1 \},\{x_1,x_2\},\{x_2,x_3\},\cdots,\{x_{k-1},x_k\} \right\}$\\
 with all $x_i$ pairwise differnt\\
--$x_0,x_k$ are connected throught the path and are called End vertices.\\
-
-- $|E|$ is the length of a path.\\
--if $p=x_0-x_k$  is a path then $P+x_kx_0$ is a cycle\\
+	$x_0 and x_k$ are connected throught the path and are called End vertices.\\
+	$|E|$ is the length of a path.\\
+\end{definition}
+\begin{definition}[cycle]
+  if $P=x_0-x_k$  is a path then $P+x_kx_0$ is a \textbf{cylce}\\
+\end{definition}
 \subsubsection{connectivity}
 \label{ssub:connectivity}
-
-Connected:a non-empty graph is connected, if
+\begin{definition}
+a non-empty graph is \textbf{connected}, if
 \begin{equation}
-  \forall x,y\in V(G)\exists P \textrm{that connects x and y}   
+	\forall x,y\in V(G) \quad \exists path P \textrm{ that connects } x\textrm{ and }y   
 \end{equation}
+\end{definition}
 \begin{proposition}
-  Let G be a connected graph, the vertices can allways be ordered as $v_1,\cdots,v_n$ such that $\forall i:G_i?G[v_1,\cdots,v_i]$ is connected
+  Let G be a connected graph, then the vertices can allways be ordered as $v_1,\cdots,v_n$ such that $\forall i:G_i=G[v_1,\cdots,v_i]$ is connected
 \end{proposition}
 \begin{proof}
-  claim that this is true for $V_1,..,V_i$
-  choose $v\in G - G_i$ ie a vertex from the rest graph\\
-  since G is connected, there must be a path connecting v and $v_i$\\
-  $ v_{i+1}$ is the last vertex in the path $v,\ldots,v_i$
-  from this the claim follows.\\
+  Claim that this is true for $G_i$\\
+	Choose $v\in G - G_i$ ie. a vertex from the rest graph\\
+  Since G is connected, there must be a path connecting $v$ and $v_i$\\
+$ v_{i+1}$ is the last vertex in the path $v,\ldots,v_i$, thus $G_{i]1}$ is connected.\\
+from this the claim follows by induction. It is rather trivial to see that vor $G_2$ any tupel of vertices connected by an edge can be chosen \\
 \end{proof}
 \paragraph{induced subgraph}
 \label{par:induced_subgraph}
-an induced subgraph is a subset of the vertices, togethere with ALL the corresponding edges from the original graph G\\
-this subgraph may be not connected.
-$ G' \textrm{is indueced if }E(G')=\left\{ xy\in E(G), x\in V(G'), y \in V(G') \right\}$
+An induced subgraph is a subset of the vertices, together with ALL the corresponding edges from the original graph $G$.\\
+This subgraph may not be connected.\\
+Formally $ G'$ is induced if $E(G')=\left\{ xy\in E(G)| x,y \in V(G') \right\}$
 \paragraph{partition}
 \label{par:partition}
 
-
-a partitino of a set $M=\left\{ 1,\cdots,n \right\}$ is
-
-subsets $m_k$
+A partition of a set $M=\left\{ 1,\cdots,n \right\}$ is a set of subsets  $M_k$ such that
 \begin{equation}
 \bigcup_iM_i=M
 \end{equation}
 \begin{equation}
   M_i\cap M_j=\left\{  \right\}
 \end{equation}
-\paragraph{component}
+\paragraph{connected component}
 \label{par:component}
 
-a component is a maximal connected subgraph of $G$\\
-is an induced subgraph of $G$\\
-teh set of components partitions the graph G
+a (connected) component is a connected induced subgraph of maximal size of $G$\\
+the set of components partitions the graph $G$.
 \paragraph{separation}
 \label{par:separation}
 
 if $A,B\subseteq V$ and $x\subseteq V\cup E$
 whatever.. google it yourself
 
-\subsubsection{anwendung von Laplace matrix oder so}
+\subsection{Applications of the Laplacian Matrix}
 \label{ssub:anwendung_von_laplace_matrix_oder_so}
+Let us first define the Laplacian matrix:
  \begin{equation}
    L=D-A
  \end{equation}
+where $D$ is the degree matrix and $A$ the adjacency matrix
  \subsubsection{algebraic connectivity}
  \label{ssub:algebraic_connectivity}
  
  
-A ist die adjeszenz matrix
-Eigenschaften (ungereichteteter grah:
-  Symmetrisch Zeilen und spaltensummen=0
-  Eigenwert $\lambda_0=0$ und  $V_0=(1,-1)$
-  Anzahl der 0 EW ist whatever\ldots
-  das ist das ding aus wikipedia welches folgt. wir wollen und die algebraische connectivität anschauen also betrachten ob der graph resistend gegen das wegnehmen von vertices ist.
-  if we have a fairly well connected graph we can take away vertices without loosing connectivity., we also want to know, which vertices are connected more strongly and which vertices are important to keep connectivity granted.
-  the algebrtaiic connectivity shal be >0 only if there are only connected components, is the 2 smallest eigenvalue of the Laplace Matrix.
+A ist die adjeszenz matrix\\
+Eigenschaften (ungerichteter) graph:
+	\begin{itemize}
+  \item Symmetrisch Zeilen und spaltensummen = 0
+	\item Eigenwert $\lambda_0=0$ und  $V_0=(1,-1)^T$
+	\item algebraic multiplicity of the eigenvalue 0 of the Laplacian matrix is equal to the number of connected components
+	\end{itemize}
+  wir wollen und die algebraische connectivität anschauen also betrachten ob der graph resistend gegen das wegnehmen von vertices ist.\\
+  if we have a fairly well connected graph we can take away vertices without loosing connectivity., we also want to know, which vertices are connected more strongly and which vertices are important to keep connectivity granted.\\
+\begin{definition}
+	The \textbf{algebraic connectivity} is the second smallest (eigenvalue of the Laplacian Matrix, this eigenvalue is also called the Fiedler value.\\
+\end{definition}
+	The algebrtaiic connectivity of a graph is  $> 0$ if and only if the graph is connected.
   describes how well the graph is connected globally.
 the algebraic connectivity is smaller or equal to the  vertex connectivity
 \begin{example}
-  from wikipedia
-\end{example}
-\paragraph{fiedler vector}
-\label{par:fiedler_vector}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\linewidth, natwidth=640,natheight=642 ]{640px-6n-graf.svg.png}
+		\caption{Example graph with 6 vertices}
+		\source{Wikipedia}
+		\label{fig:640px-6n-graf.png}
+	\end{figure}
+Adjacency matrix:
+\begin{equation*}
+	A= \begin{pmatrix}
+	 0 &  1 &  0 &  0 &  1 &  0\\
+ 1 &  0 &  1 &  0 &  1 &  0\\
+ 0 &  1 &  0 &  1 &  0 &  0\\
+ 0 &  0 &  1 &  0 &  1 &  1\\
+ 1 &  1 &  0 &  1 &  0 &  0\\
+ 0 &  0 &  0 &  1 &  0 &  0\\
+	\end{pmatrix}
+\end{equation*}
+Degree matrix:
+\begin{equation*}
+	D=
+	\begin{pmatrix}
+	 2 &  0 &  0 &  0 &  0 &  0\\
+ 0 &  3 &  0 &  0 &  0 &  0\\
+ 0 &  0 &  2 &  0 &  0 &  0\\
+ 0 &  0 &  0 &  3 &  0 &  0\\
+ 0 &  0 &  0 &  0 &  3 &  0\\
+ 0 &  0 &  0 &  0 &  0 &  1\\
+	\end{pmatrix}
+\end{equation*}
+Laplacian matrix:
+\begin{equation*}
+	L=
+	\begin{pmatrix}
+	 2 & -1 &  0 &  0 & -1 &  0\\
+-1 &  3 & -1 &  0 & -1 &  0\\
+ 0 & -1 &  2 & -1 &  0 &  0\\
+ 0 &  0 & -1 &  3 & -1 & -1\\
+-1 & -1 &  0 & -1 &  3 &  0\\
+ 0 &  0 &  0 & -1 &  0 &  1\\
+	\end{pmatrix}
+\end{equation*}
+The corresponding eigenvalues are (approximately) 4.9, 3.7. 3, 1.6, 0.7, 0
+thus the second smallest eigenvector is 0.7. That corresponds to only having one connected component. 
 
-is the eigenvector corresponding to the algebraic conectivity.\\
-can be used to partition the graph
-in the wikipedia example we have $F=(0.4,0.3,0.1,-0.2,-0.8)$
-we see immidiately that the vertex 6 is not connected very well to the rest, vertex 4 is a joint.\\
-possible partitions, could be domne by choosing in positiva and negative fiedlernumbers., ie $\left\{ 1,2,3,5 \right\}\left\{ 4,6 \right\}$
-\subsection{repetition from last time and some other stuff}
-\label{sub:repetition_from_last_time_and_some_other_stuff}
+
+
+
+
+\iffalse:
+ask wolfram alpha for: 
+eigenvalues
+{{ 2,-1, 0, 0,-1, 0},
+{-1, 3,-1, 0,-1, 0},
+{ 0,-1, 2,-1, 0, 0},
+{ 0, 0,-1, 3,-1,-1},
+{-1,-1, 0,-1, 3, 0},
+{ 0, 0, 0,-1, 0, 1}
+}
+\fi 
+
+\end{example}
+\subsubsection{Fiedler vector}
+\label{ssub:fiedler_vector}
+
+The \textbf{Fielder Vector} is the eigenvector corresponding to the algebraic conectivity (Fiedler value).\\
+It can be used to partition the graph
+In the above example we have
+\begin{equation*}
+	 F=(0.4,0.3,0.1,-0.2,0.2,-0.8)
+\end{equation*}
+We see immidiately that the vertex 6 is not connected very well to the rest, vertex 4 is a joint.\\
+\marginpar{originally the term fiedler numbers was used for the entries in the fiedlervector, but this is in conflict with other notations}
+Possible partitions could be done by choosing in positive and negative entries of the fiedlervector, ie
+\begin{equation*}
+	\left\{ 1,2,3,5 \right\}\left\{ 4,6 \right\}
+\end{equation*}
 
 
 \subsection{Zerlegungsproblem}
@@ -307,16 +419,20 @@ possible partitions, could be domne by choosing in positiva and negative fiedler
 wobei gilt dass $x_0x_1,x_1x_2,,\dots,x_{n-1}x_n\in E$
 \subsubsection{independent path}
 \label{ssub:independent_path}
-
-$P=XP_1P_2-Y$\\
-$Q=xq_1q_2-Y$ sind unanbhäng, wenn $ \left\{ p_1p_2- \right\}\left\{\cap q_1q_2- \right\}= \emptyset$ also disjunkt.\\
-$P\cap Q= \emptyset$
+Two paths $P$ and $Q$ with \\
+$P=xp_1p_2,\dots,y$\\
+$Q=xq_1q_2,\dots,y$\\
+are independent if $ \left\{ p_1p_2,\dots \right\}\cap\left\{ q_1q_2,\dots \right\}= \emptyset$ ie. they are disjunct except for start- and endpoint.\\
+ we write 
+ \begin{equation*}
+P\cap Q= \emptyset
+ \end{equation*}
 \subsubsection{k-connectedness}
 \label{ssub:k_connectedness}
 
 	\begin{enumerate}[(i)]
-	  \item ein graph ist G ist k-verbunden wenn $\forall k-1$ vertices $G-\left\{ v_1,\dots,v_{k-1} \right\}$
-	  \item ein graph ig ist k verbunden wenn $\forall xy \in V(G)$ es $k$ unabhängige Pfade von x nach y gibt.
+		\item a graph   $G$ is $k$-connected if $\forall \quad (k-1)$ vertices $G-\left\{ v_1,\dots,v_{k-1} \right\}$ is connected
+		\item a graph $G$ is $k$ if $\forall x,y \in V(G)$ there are  $k$ independent paths from $x$ to $y$.
 	\end{enumerate}
 \subsubsection{2-connectedness}
 \label{ssub:2_connectedness}
@@ -325,33 +441,34 @@ $P\cap Q= \emptyset$
   \item alle anderen 2-verbundnenen Graphen können aus (i) und weiteren Pfaden an diesem Graph konstruiert werden.
 \end{enumerate}
 \begin{lemma}
-  ein graph g ist 2-verbunden $\Leftrightarrow$ G kann via (i) und (ii) konstruiert werden.  
+	A graph  $G$ is 2-connected  $\Leftrightarrow$ $G$ it can be constructed via (i) and (ii).
 \end{lemma}
 \begin{proof}
-  \begin{enumerate}[(a)]
-    \item jeder nach i und (ii) konstruierte graph ist 2 verbunden!
-    \item sien G 2-verbunden
-      \begin{enumerate}
-	\item g enthält einen kreis und deshalb einen $H\in G$ der nach (a) konstruirbar und maximal ist.
-	\item nehme an dass $G\neq H$ und $\exists vw\in E(G): v\in G-H, w\in H$
-	\item wir wissen als G ist 2-verbunden $\Rightarrow$ $G-w$(read G ohne w) hat einen v-H(read v nach H) path P, (also der nicht vw path) $\Rightarrow$ wvP ist H-path in G und $H \cup wvP$ der also eigentlich schon von anfang an in H hätte sein können  
-      \end{enumerate}
-  \end{enumerate}
+	$ $\\
+  \begin{itemize}
+		\item[$\Rightarrow$] every graph constructed under (i) and (ii) is 2-connected!
+		\item[$\Leftarrow$] let $G$ 2-connected
+      \begin{itemize}
+				\item $G$ contains a circle and therefor a $H\subset G$ which can be constructed on the circle that is maximal. 
+				\item assume that $G\neq H$ and $\exists  vw \in E(G):\quad v \in G-H,\quad w \in H$
+				\item we know that $G$ is 2-connected $\Rightarrow$ $G-w$ (read $G$ withou $w$) has a  $v$-$H$(read $v$ to $H$) path P, (so a non vw path) $\Rightarrow$ $wvP$ ist $H$-path in $G$ und $H \cup wvP$ so it should have been in $H$ for $H$ to be maximal. 
+      \end{itemize}
+	\end{itemize}
 \end{proof}
 \subsubsection{cut vertex}
 \label{ssub:cut_vertex}
 
-ein vertex v ist ein cut vertex falls $G\setminus v$ nicht verbunden ist.
+ein vertex $v_c$ ist ein cut vertex falls $G\setminus v_c$ nicht verbunden ist.
 \begin{definition}
- Block: ein Block ist ein maximal verbundener Teilgraph $ B\subset G$ ohne cutvertex 
+	Block: ein Block ist ein maximal verbundener Teilgraph $ B\subset G$ ohne cutvertex 
 \end{definition}
-($\forall v \in V(B)$ ist v KEIN cat vertex in B, v kann durchaus cutvertex in G sein)
+($\forall v \in V(B)$ ist v KEIN cut vertex in B, v kann durchaus cutvertex in G sein)
 \begin{enumerate}[(i)]
   \item ein Block ist 2-verbunden ODER
   \item eine Brücke mit ihren enden ODER
   \item ein isolierter vertex
 \end{enumerate}
-Unterschiedliche Blöcke in G überlappen in maximal einer vertex, einer cut cut vertex in G\\
+Unterschiedliche Blöcke in G überlappen in maximal einer vertex, einer cut vertex in G\\
 \begin{definition}
   Bond: Menge von cut vertices die keine kleinere solche Menge enthalten
 \end{definition}
@@ -1037,12 +1154,11 @@ note that such a measure exists
 the prob space for every possible edge $e\in [V]^2$ \\
 $\omega _e :=\left\{ 0_e,1_e \right\}, P_e\left( \left\{ 1_e \right\} \right)=P, P_e\left( \left\{ 1_e \right\} \right)=q$\\
 $\mathcal{G}=\mathcal{G}(n,p)$ : product space
-%2017-11-27 14:35
-% spezialvorlesung 2017-12-11 14:03	
 \section{Spezialvorlesung}
 \label{sec:spezialvorlesung}
-
-\subsection{introduction to phyogeny}
+%2017-11-27 14:35
+% spezialvorlesung 2017-12-11 14:03	
+\subsection{introduction to phylogeny}
 \label{sub:introduction_to_phyogeny}
 
 menge X aller organismen \\ 
@@ -1053,8 +1169,90 @@ Genealogie: ein graph in dem zu jedem menschen oder tier die beiden eltern marki
 
 phylogeny 
 reconstruction of the evolutionary history.
-sub
-
+% 2017-12-17
+first part is missing as there are many graphics still to be done!\\
+\dots\\
+phylogenetic abstraction: contraction of all individuals of a given species between speciation events to one point.\\ 
+evolution is treelike\\
+all observed data, is from the present, thus past events can only be inferred.\\
+So we are looking for a tree $T$ and the edge lengths in $T$ given the following data:
+\begin{itemize}
+	\item DNAseq
+	\item anatomical  characteristics
+	\item behavioural characteristics
+	\item modern molecular characteristics
+\end{itemize}
+Lets say we have two sequences 
+\begin{verbatim}
+		X   ATGTTCAC
+		Y		ATCTCCAC
+\end{verbatim}
+There have been two substitutions (fixed mutations)\\ 
+Which tree yields the least number of substitutions?
+usually we have a binary character tableof the form
+\begin{center}
+	\begin{tabular}{ c|c|c|}
+		& X & Y \\
+		\hline 
+		chlorophyl? & 1 & 1\\
+		has 5 petals & 1&0\\
+		enclosed seeds? &\dots&\dots\\
+		\dots&\dots&\dots
+	\end{tabular}
+\end{center}
+SKETCH MISSIN WITH PHYLOGENETIC TREE\\
+we define a distance beteen to species:
+\begin{equation*}
+	\begin{split}
+	d(x,y)&= \textrm{\# of events between } x \textrm{and  } y\\
+	&=\sum_{\textrm{ edge} e \textrm{ between }x \textrm{ and  } y}	d(e)
+	\end{split}
+\end{equation*}
+where $d(e)$ is the \# of events along the edge $e$.\\
+note that there are double mutations, cf Jukes Cantor Model.\\ 
+With a four letter alphapet of the DNA, ie a chance of $\frac{3}{4}$ to get a different letter, and a constant substitution rate $\mu$, we can state:
+\begin{equation*}
+	D(x,y)= \frac{3}{4}\left( 1- e^{-\frac{4}{3}\cdot \mu d(x,y)}\right)
+\end{equation*}
+THERE IS A SKETCH OF THE SATURATING DXY MISSING
+Quick repetition \textit{definition of a metric}:
+\begin{enumerate}[(i)]
+	\item $d(x,y)\geq 0$ (positivity)
+	\item	$d(x,y)=0 \Leftrightarrow x=y$ ( identity of indescernibles)
+	\item $d(x,y) + d(y,z) \geq d(x,z)$ ( triange inequality)
+	\item $d(x,y)=d(y,x)$ ( symmetry )
+\end{enumerate}
+The objective is now to infer a Tree with wightet edges from the set of distances between vertices.
+\begin{equation*}
+	d \leadsto (T,l)
+\end{equation*}
+where $T$ is a tree and  $l$ are the weights of the edges.
+\begin{equation*}
+	l: E(T) \rightarrow \mathbbm{R}^+_0
+\end{equation*}
+In a tree $T$ with leaveset $X$ there exists a unique path from $x$ to $y$ for all $x,y \in X$, therefor the edgeset $p(x,y)$ is well defined.
+\begin{definition}
+	For a Tree $T$ with leaves $X$ and edgelengths $l$ the \textbf{distance between two leaves} is 
+	\begin{equation*}
+		d_{(T,l)}(x,y)= \sum_{e\in p(x,y)} l(e)
+	\end{equation*}
+	we imediately see  that:
+	\begin{equation*}
+		 d_{(T,l)}:X\times X  \rightarrow  \mathbbm{R}^+_0
+	\end{equation*}
+	is a pseudometric  THUS WE HAVE TO DEFINE IT ABOVE
+\end{definition}
+% 2017-12-18
+\marginpar{splitstree $\rightarrow $ online pyhlogenetic tree generator }
+\begin{definition}
+	eine \textbf{monophyletische gruppe} ist eine Gruppe die einen vollständigen subtree im phylogenetischen baum darstellt.
+\end{definition}
+\subsection{phylogenetische Netzwerke}
+\label{sub:phylogenetische_netzwerke}
+'Buneman Graphen'\\
+Verallgemeinerung von Bäumen.\\
+wenn $D$ additiv zum baum $T$, dann buneman graph $\equiv$ Baum $T$ $ \forall i,j,k$
+x1
 
 
 
